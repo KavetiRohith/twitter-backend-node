@@ -7,17 +7,19 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   @Get('/@:username')
-  getUserByUsername(@Param() param): string {
-    return `details of username = ${param.username}`;
+  getUserByUsername(@Param('username') username: string): string {
+    return `details of username = ${username}`;
   }
 
   @Get('/:userid')
-  getUserByUserid(@Param() param): string {
-    return `details of user id = ${param.userid}`;
+  getUserByUserid(@Param('userid') userid: string): string {
+    return `details of user id = ${userid}`;
   }
 
   @Post('/')
@@ -26,27 +28,27 @@ export class UsersController {
   }
 
   @Patch('/:userid')
-  updateUserDetails(@Param() param): string {
-    return `details of user (id = ${param.userid}) updated`;
+  updateUserDetails(@Param('userid') userid: string): string {
+    return `details of user (id = ${userid}) updated`;
   }
 
   @Put('/:userid/follow')
-  followUser(): string {
-    return 'you followed user';
+  followUser(@Param('userid') userid: string): string {
+    return `you followed user = ${userid}`;
   }
 
   @Delete('/:userid/follow')
-  unfollowUser(): string {
-    return 'you unfollowed user';
+  unfollowUser(@Param('userid') userid: string): string {
+    return `you unfollowed user = ${userid}`;
   }
 
   @Get('/:userid/followers')
-  getFollowersOfUser(): string {
-    return 'get followers of user';
+  getFollowersOfUser(@Param('userid') userid: string): string {
+    return `get followers of user = ${userid}`;
   }
 
   @Put('/:userid/followees')
-  getFolloweesOfUser(): string {
-    return `get followees of given user`;
+  getFolloweesOfUser(@Param('userid') userid: string): string {
+    return `get followees of given user = ${userid}`;
   }
 }

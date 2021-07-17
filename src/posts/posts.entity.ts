@@ -1,8 +1,13 @@
 import { TwitterBaseEntity } from 'src/common/base.entity';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { UserEntity } from 'src/users/users.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity('posts')
 export class PostEntity extends TwitterBaseEntity {
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'author_id' })
+  author: UserEntity;
+
   @Column({ length: 240, nullable: true })
   text: string;
 
