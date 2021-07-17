@@ -1,4 +1,4 @@
-import { TwitterBaseEntity } from 'src/common/base.entity';
+import { TwitterBaseEntity } from '../common/base.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity('users')
