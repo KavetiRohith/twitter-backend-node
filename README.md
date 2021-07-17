@@ -1,5 +1,5 @@
 # A Twitter Clone
-Backend API using nest framework (NoseJS + TypeScript + PostgreSQL)
+Backend API using nest framework (NodeJS + TypeScript + PostgreSQL)
 
 ![NodeJS workflow](https://github.com/KavetiRohith/twitter-backend-node/actions/workflows/nodejs.yml/badge.svg)
 
