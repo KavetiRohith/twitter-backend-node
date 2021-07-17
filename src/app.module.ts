@@ -10,6 +10,7 @@ import { PostEntity } from './posts/posts.entity';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
 import { HashtagsModule } from './hashtags/hashtags.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { HashtagsModule } from './hashtags/hashtags.module';
     UsersModule,
     PostsModule,
     HashtagsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
