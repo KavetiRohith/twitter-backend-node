@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-// import { TwitterBaseEntity } from 'src/common/base.entity';
 import { UsersController } from './users.controller';
 import { UsersRepository } from './users.repository';
 import { UsersService } from './users.service';

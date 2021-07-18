@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from '../auth/auth.service';
+import { PasswordEntity } from '../auth/passwords.entity';
+import { Repository } from 'typeorm';
 import { UserUpdateRequestBody } from './users.controller';
 import { UserEntity } from './users.entity';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private userRepo: UsersRepository) {}
+  constructor(
+    private userRepo: UsersRepository,
+    private authService: AuthService,
+  ) {}
 
   public async getUserByUsername(username: string): Promise<UserEntity> {
     return await this.userRepo.findOne({ where: { username } });
@@ -15,8 +22,13 @@ export class UsersService {
     return await this.userRepo.findOne({ where: { id } });
   }
 
-  public async createUser(user: Partial<UserEntity>): Promise<UserEntity> {
-    return await this.userRepo.save(user);
+  public async createUser(
+    user: Partial<UserEntity>,
+    password: string,
+  ): Promise<UserEntity> {
+    const newUser = await this.userRepo.save(user);
+    await this.authService.createPasswordForNewUser(newUser.id, password);
+    return newUser;
   }
 
   public async updateUser(
@@ -24,7 +36,7 @@ export class UsersService {
     newUserDetails: UserUpdateRequestBody,
   ): Promise<UserEntity> {
     const existingUser = await this.userRepo.findOne({
-      where: { id: userId }
+      where: { id: userId },
     });
     if (!existingUser) {
       return null;
