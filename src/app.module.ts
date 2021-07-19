@@ -12,6 +12,7 @@ import { PostsModule } from './posts/posts.module';
 import { HashtagsModule } from './hashtags/hashtags.module';
 import { AuthModule } from './auth/auth.module';
 import { PasswordEntity } from './auth/passwords.entity';
+import { SessionsEntity } from './auth/sessions.entity';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { PasswordEntity } from './auth/passwords.entity';
       dropSchema: true, // do not use in production
       logger: 'advanced-console',
       logging: 'all',
-      entities: [UserEntity, PostEntity, PasswordEntity],
+      entities: [UserEntity, PostEntity, PasswordEntity, SessionsEntity],
     }),
     UsersModule,
     PostsModule,
