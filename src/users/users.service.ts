@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '../auth/auth.service';
 import { PasswordEntity } from '../auth/passwords.entity';
@@ -26,6 +26,9 @@ export class UsersService {
     user: Partial<UserEntity>,
     password: string,
   ): Promise<UserEntity> {
+    if (user.username.length < 5)
+      throw new BadRequestException('Username must be of minimum 5 characters');
+
     const newUser = await this.userRepo.save(user);
     await this.authService.createPasswordForNewUser(newUser.id, password);
     return newUser;
