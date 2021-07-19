@@ -29,6 +29,13 @@ export class UsersService {
     if (user.username.length < 5)
       throw new BadRequestException('Username must be of minimum 5 characters');
 
+    if (password.length < 8)
+      throw new BadRequestException('Password must be of minimum 8 characters');
+
+    if (password.toLowerCase() === 'password')
+      throw new BadRequestException(
+        'Password must not be the word password itself',
+      );
     const newUser = await this.userRepo.save(user);
     await this.authService.createPasswordForNewUser(newUser.id, password);
     return newUser;
