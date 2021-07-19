@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '../auth/auth.service';
 import { PasswordEntity } from '../auth/passwords.entity';
@@ -26,6 +26,14 @@ export class UsersService {
     user: Partial<UserEntity>,
     password: string,
   ): Promise<UserEntity> {
+    const usernameAlreadyExists = await this.userRepo.findOne({
+      where: { username: user.username },
+    });
+    if (usernameAlreadyExists)
+      throw new ConflictException(
+        `User with username: ${user.username} already exists`,
+      );
+
     if (user.username.length < 5)
       throw new BadRequestException('Username must be of minimum 5 characters');
 
@@ -49,7 +57,7 @@ export class UsersService {
       where: { id: userId },
     });
     if (!existingUser) {
-      return null;
+      throw new BadRequestException("User doesn't exist");
     }
     if (newUserDetails.bio) existingUser.bio = newUserDetails.bio;
     if (newUserDetails.avatar) existingUser.avatar = newUserDetails.avatar;
